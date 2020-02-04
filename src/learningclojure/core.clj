@@ -45,7 +45,7 @@ true false  ;; bool
 
 ;; Anonymous function
 
-(fn [msg] (println msg))
+;; (fn [msg] (println msg))
 
 ;; Immediately Invoke an anonymouse func
 ((fn [message] (println message)) "Hello world!")
@@ -59,10 +59,34 @@ true false  ;; bool
 
 ;; Anonymous function syntax sugar
 ;; Equivalent to: (fn [x] (+ 6 x))
-#(+ 6 %)
+;; #(+ 6 %)
 
 ;; Equivalent to: (fn [x y] (+ x y))
-#(+ %1 %2)
+;; #(+ %1 %2)
 
 ;; Equivalent to: (fn [x y & zs] (println x y zs))
-#(println %1 %2 %&)
+;; #(println %1 %2 %&)
+
+;; Applying Functions - The apply function invokes a function with 0 or more arguments
+
+;; (apply f '(1 2 3 4))
+;; (apply f 1 '(2 3 4))
+;; (apply f 1 2 '(3 4))
+;; (apply f 1 2 3 '(4)) ;; The final arg must be a sequence
+
+;; All 4 are equivalent to (f 1 2 3 4)
+
+;; Locals and Closures
+;; let binds symbols to values in a "lexical scope". A lexical scope creates a new context for names, nested inside the surrounding context.
+
+;; (let [x 1
+;;       y 2]
+;;   (+ x y))
+
+(defn closure-test [msg]
+  (let [a 7
+        b 5
+        c (closure.string/capitalize msg)]
+    (println a b c)
+  ) ;; end of let scope
+) ;; end of function
