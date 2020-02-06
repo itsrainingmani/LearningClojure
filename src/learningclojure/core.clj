@@ -1,5 +1,7 @@
 (ns learningclojure.core
-  (:gen-class))
+  (:gen-class)
+  (require [clojure.repl :refer :all])
+  (require [clojure.string :as str]))
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -48,10 +50,10 @@ true false  ;; bool
 ;; (fn [msg] (println msg))
 
 ;; Immediately Invoke an anonymouse func
-((fn [message] (println message)) "Hello world!")
+((fn [message] (println message)) "Immediately invoked Hello world!")
 
 ;; Clojure only has expressions
-(defn f [name] (str "Hello " name))
+(defn ex [name] (str "Hello " name))
 
 (def f (fn [name] str "Hello " name))
 
@@ -84,9 +86,23 @@ true false  ;; bool
 ;;   (+ x y))
 
 (defn closure-test [msg]
-  (let [a 7
-        b 5
-        c (closure.string/capitalize msg)]
+  (let [a "Hey"
+        b "there, "
+        c (str/capitalize msg)]
     (println a b c)
   ) ;; end of let scope
 ) ;; end of function
+
+;; Cannot nest Anonymous functions since that would create ambiguity as the parameters are not named
+
+;; This is valid
+(def t #(* 2 %1))
+#(t 10)
+
+;; This is not since the anon function is nested
+;; #((#(* 2 %1)) 10)
+
+;; Using an anonymous function inside a let block
+(let [t 
+      #(* 2 %1)] ;; Binds #(* 2 %1) to t in the lexical scope
+  (t 10))
